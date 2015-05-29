@@ -1,0 +1,29 @@
+{
+  "name": "Flowcharter",
+  "version": "0.0.1",
+  "description": "Cool looking online flowcharts",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codeboxsystems/flowcharter.git"
+  },
+  "author": "Rob Layton hire@roblayton.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/codeboxsystems/flowcharter/issues"
+  },
+  "homepage": "https://github.com/codeboxsystems/flowcharter",
+  "devDependencies": {
+    "browserify": "^10.2.1",
+    "gulp": "^3.8.11",
+    "gulp-html-replace": "^1.4.5",
+    "gulp-streamify": "0.0.5",
+    "gulp-uglify": "^1.1.0",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.2.1"
+  }
+}
