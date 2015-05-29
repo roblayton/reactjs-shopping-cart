@@ -1,21 +1,21 @@
 {
-  "name": "Flowcharter",
+  "name": "reactjs-shopping-cart",
   "version": "0.0.1",
-  "description": "Cool looking online flowcharts",
+  "description": "For buying stuff",
   "main": "index.js",
   "scripts": {
     "test": "npm test"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codeboxsystems/flowcharter.git"
+    "url": "https://github.com/roblayton/reactjs-shopping-cart.git"
   },
   "author": "Rob Layton hire@roblayton.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/codeboxsystems/flowcharter/issues"
+    "url": "https://github.com/roblayton/reactjs-shopping-cart/issues"
   },
-  "homepage": "https://github.com/codeboxsystems/flowcharter",
+  "homepage": "https://github.com/roblayton/reactjs-shopping-cart",
   "devDependencies": {
     "browserify": "^10.2.1",
     "gulp": "^3.8.11",
