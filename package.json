@@ -20,8 +20,11 @@
     "browserify": "^10.2.1",
     "gulp": "^3.8.11",
     "gulp-html-replace": "^1.4.5",
+    "gulp-minify-css": "^1.1.1",
+    "gulp-rename": "^1.2.2",
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.1.0",
+    "react": "^0.13.3",
     "reactify": "^1.1.1",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.1"

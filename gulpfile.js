@@ -1,39 +1,45 @@
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
-var htmlreplace = require('gulp-html-replace');
+var htmlReplace = require('gulp-html-replace');
 var source = require('vinyl-source-stream');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
+var minifyCss = require('gulp-minify-css');
+var rename = require('gulp-rename');
  
 var path = {
   HTML: 'src/index.html',
+  CSS: 'src/css/styles.css',
   MINIFIED_OUT: 'build.min.js',
   OUT: 'build.js',
+  CSS_OUT: 'styles.css',
+  MINIFIED_CSS_OUT: 'styles.min.css',
   DEST: 'dist',
   DEST_BUILD: 'dist/build',
   DEST_SRC: 'dist/src',
+  DEST_CSS: 'dist/css',
   ENTRY_POINT: './src/js/App.js'
 };
  
 // DEVELOPMENT
 gulp.task('copy', function(){
-  gulp.src(path.HTML)
-    .pipe(gulp.dest(path.DEST));
+  gulp.src(path.CSS)
+    .pipe(gulp.dest(path.DEST_CSS));
 });
  
-gulp.task('replaceHTMLsrc', function(){
+gulp.task('replaceHtmlSrc', function(){
   gulp.src(path.HTML)
-    .pipe(htmlreplace({
+    .pipe(htmlReplace({
       'js': 'src/' + path.OUT
     }))
     .pipe(gulp.dest(path.DEST));
 });
  
-gulp.task('watch', ['replaceHTMLsrc'], function() {
-  // gulp.watch(path.HTML, ['copy']);
-  gulp.watch(path.HTML, ['replaceHTMLsrc']);
+gulp.task('watch', ['replaceHtmlSrc', 'copy'], function() {
+  gulp.watch(path.HTML, ['replaceHtmlSrc']);
+  gulp.watch(path.CSS, ['copy']);
  
   var watcher  = watchify(browserify({
     entries: [path.ENTRY_POINT],
@@ -61,18 +67,26 @@ gulp.task('build', function(){
   })
     .bundle()
     .pipe(source(path.MINIFIED_OUT))
-    .pipe(streamify(uglify(path.MINIFIED_OUT)))
+    .pipe(streamify(uglify()))
+    .pipe(gulp.dest(path.DEST_BUILD));
+});
+
+gulp.task('buildCss', function() {
+  gulp.src(path.CSS)
+    .pipe(minifyCss())
+    .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.DEST_BUILD));
 });
  
-gulp.task('replaceHTML', function(){
+gulp.task('replaceHtml', function(){
   gulp.src(path.HTML)
-    .pipe(htmlreplace({
-      'js': 'build/' + path.MINIFIED_OUT
+    .pipe(htmlReplace({
+      'js': 'build/' + path.MINIFIED_OUT,
+      'css': 'build/' + path.MINIFIED_CSS_OUT
     }))
     .pipe(gulp.dest(path.DEST));
 });
  
-gulp.task('production', ['replaceHTML', 'build']);
+gulp.task('production', ['replaceHtml', 'build', 'buildCss']);
  
 gulp.task('default', ['watch']);
