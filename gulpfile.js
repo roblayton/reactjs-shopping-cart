@@ -32,7 +32,8 @@ gulp.task('copy', function(){
 gulp.task('replaceHtmlSrc', function(){
   gulp.src(path.HTML)
     .pipe(htmlReplace({
-      'js': 'src/' + path.OUT
+      'js': 'src/' + path.OUT,
+      'css': 'css/' + path.CSS_OUT
     }))
     .pipe(gulp.dest(path.DEST));
 });
