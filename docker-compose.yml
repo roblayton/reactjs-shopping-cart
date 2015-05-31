@@ -1,7 +1,3 @@
-#web: 
-  #build: .
-  #links:
-    #- server
 database:
   image: "mongo:latest"
   ports:

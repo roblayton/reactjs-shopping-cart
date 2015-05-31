@@ -4,7 +4,7 @@ var React = require('react'),
     request = require('request');
 
 request({
-  uri: 'http://192.168.99.112:5000/products',
+  uri: 'http://192.168.99.114:5000/products',
   method: 'GET',
   withCredentials: false,
   timeout: 10000,
@@ -22,6 +22,5 @@ request({
       <Cart />
     </div>,
   document.getElementById('app'));
-
 });
 

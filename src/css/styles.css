@@ -1,6 +1,22 @@
 .product {
-  padding: 14px 0;
+  padding: 0 0 14px 0;
 }
 
-.test {
+#products {
+  float: left;
+  padding: 20px;
+}
+
+#products ul {
+  padding: 0;
+  margin: 0;
+}
+
+#cart {
+  padding: 20px;
+  float: left;
+}
+
+#total {
+  padding-bottom: 14px;
 }
