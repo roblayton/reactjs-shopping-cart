@@ -1,12 +1,11 @@
 var React = require('react');
 var ProductList = require('./ProductList');
+var Cart = require('./Cart');
+var products = require('../data/products.json');
 
-var products = [
-  {id: 0, productName: "a", tag: ["books"], price: 1.00},
-  {id: 1, productName: "b", tag: ["books"], price: 1.00},
-  {id: 2, productName: "c", tag: ["movies"], price: 1.00},
-  {id: 3, productName: "d", tag: ["music"], price: 1.00},
-  {id: 4, productName: "e", tag: ["music"], price: 1.00}
-];
-
-React.render(<ProductList products={products} />, document.getElementById('app'));
+React.render(
+  <div>
+    <ProductList products={products} />
+    <Cart />
+  </div>,
+document.getElementById('app'));

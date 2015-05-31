@@ -1,11 +1,9 @@
 var React = require('react');
-var EventEmitter = require("events").EventEmitter;
-
-var eventer = new EventEmitter();
+var MBus = require('./MessageBus');
 
 var Product = React.createClass({
   addToCart: function() {
-    eventer.emit("CartItemAdded", null, this.props.key); 
+    MBus.emit('CartItemAdded', this.props.productId); 
   },
   render: function() {
     return (

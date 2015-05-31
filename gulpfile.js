@@ -82,11 +82,14 @@ gulp.task('buildCss', function() {
 gulp.task('replaceHtml', function(){
   gulp.src(path.HTML)
     .pipe(htmlReplace({
-      'js': 'build/' + path.MINIFIED_OUT,
-      'css': 'build/' + path.MINIFIED_CSS_OUT
+      'js': path.MINIFIED_OUT,
+      'css': path.MINIFIED_CSS_OUT
     }))
-    .pipe(gulp.dest(path.DEST));
+    .pipe(gulp.dest(path.DEST_BUILD));
 });
+
+// Custom
+// ------
  
 gulp.task('production', ['replaceHtml', 'build', 'buildCss']);
  
