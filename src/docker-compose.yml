@@ -1,8 +1,0 @@
-web:
-  build: .
-  environment:
-    - "MONGO_URI=mongodb://database:27017/products"
-db:
-  image: "mongodb:latest"
-  ports:
-    - "27017:27017"

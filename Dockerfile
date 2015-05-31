@@ -1,5 +1,5 @@
 from nginx
-ADD build /usr/share/nginx/html
+ADD dist/build /usr/share/nginx/html
 ADD docker/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80

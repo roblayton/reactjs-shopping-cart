@@ -1,0 +1,14 @@
+#web: 
+  #build: .
+  #links:
+    #- server
+database:
+  image: "mongo:latest"
+  ports:
+    - "27017:27017"
+server:
+  build: ../products-pyserver
+  links:
+    - database
+  ports:
+    - "5000:5000"

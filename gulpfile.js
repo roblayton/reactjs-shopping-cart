@@ -1,13 +1,14 @@
-var gulp = require('gulp');
-var uglify = require('gulp-uglify');
-var htmlReplace = require('gulp-html-replace');
-var source = require('vinyl-source-stream');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var reactify = require('reactify');
-var streamify = require('gulp-streamify');
-var minifyCss = require('gulp-minify-css');
-var rename = require('gulp-rename');
+var gulp = require('gulp'),
+    uglify = require('gulp-uglify'),
+    htmlReplace = require('gulp-html-replace'),
+    source = require('vinyl-source-stream'),
+    browserify = require('browserify'),
+    watchify = require('watchify'),
+    reactify = require('reactify'),
+    streamify = require('gulp-streamify'),
+    minifyCss = require('gulp-minify-css'),
+    rename = require('gulp-rename'),
+    shell = require('gulp-shell');
  
 var path = {
   HTML: 'src/index.html',
@@ -29,7 +30,7 @@ gulp.task('copy', function(){
     .pipe(gulp.dest(path.DEST_CSS));
 });
  
-gulp.task('replaceHtmlSrc', function(){
+gulp.task('replace-html-src', function(){
   gulp.src(path.HTML)
     .pipe(htmlReplace({
       'js': 'src/' + path.OUT,
@@ -38,8 +39,8 @@ gulp.task('replaceHtmlSrc', function(){
     .pipe(gulp.dest(path.DEST));
 });
  
-gulp.task('watch', ['replaceHtmlSrc', 'copy'], function() {
-  gulp.watch(path.HTML, ['replaceHtmlSrc']);
+gulp.task('watch', ['replace-html-src', 'copy'], function() {
+  gulp.watch(path.HTML, ['replace-html-src']);
   gulp.watch(path.CSS, ['copy']);
  
   var watcher  = watchify(browserify({
@@ -72,14 +73,14 @@ gulp.task('build', function(){
     .pipe(gulp.dest(path.DEST_BUILD));
 });
 
-gulp.task('buildCss', function() {
+gulp.task('build-css', function() {
   gulp.src(path.CSS)
     .pipe(minifyCss())
     .pipe(rename({suffix: '.min'}))
     .pipe(gulp.dest(path.DEST_BUILD));
 });
  
-gulp.task('replaceHtml', function(){
+gulp.task('replace-html', function(){
   gulp.src(path.HTML)
     .pipe(htmlReplace({
       'js': path.MINIFIED_OUT,
@@ -88,9 +89,48 @@ gulp.task('replaceHtml', function(){
     .pipe(gulp.dest(path.DEST_BUILD));
 });
 
-// Custom
-// ------
- 
-gulp.task('production', ['replaceHtml', 'build', 'buildCss']);
- 
-gulp.task('default', ['watch']);
+// ---------
+
+gulp.task('create-docker-machine', shell.task([
+  'docker-machine create --driver virtualbox shoppingcart'
+]));
+
+// After creating the machine, make sure you run:
+// docker-machine env shoppingcart | source
+
+gulp.task('build-docker', shell.task([
+  'docker-compose build'
+]));
+
+gulp.task('compose', ['build-docker'], shell.task([
+  'docker-compose up -d'
+]));
+
+gulp.task('init-db', ['compose'], shell.task([
+  'mongo --host $(docker-machine ip shoppingcart) main db_init.js --quiet'
+]));
+
+gulp.task('status', shell.task([
+  'docker-compose ps shoppingcart'
+]));
+
+gulp.task('stop', shell.task([
+  'docker-compose stop shoppingcart'
+]));
+
+gulp.task('destroy-docker-machine', shell.task([
+  'docker-machine kill shoppingcart',
+  'docker-machine rm shoppingcart'
+]));
+
+// ---------
+
+gulp.task('prepare', ['create-docker-machine']);
+gulp.task('provision', ['build-docker', 'compose', 'init-db']);
+
+gulp.task('develop', ['watch']);
+gulp.task('production', ['replace-html', 'build', 'build-css']);
+
+gulp.task('clean', ['destroy-docker-machine']);
+gulp.task('default', ['develop']);
+
