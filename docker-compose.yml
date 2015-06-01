@@ -3,7 +3,7 @@ database:
   ports:
     - "27017:27017"
 server:
-  build: ../products-pyserver
+  image: "roblayton/products-pyserver:1.0.0"
   links:
     - database
   ports:
